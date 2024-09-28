@@ -1,10 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { nanoid } from "nanoid";
 import { useId } from "react";
 import css from "../ContactForm/ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contactsOps";
 
 const phoneRegExp =
   /^(\+?\d{1,4}[\s-]?)?\(?\d{1,4}?\)?[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
@@ -33,7 +32,6 @@ export default function ContactForm() {
   const handleSubmit = (values, actions) => {
     dispatch(
       addContact({
-        id: nanoid(),
         name: values.name,
         number: values.number,
       })
@@ -51,7 +49,7 @@ export default function ContactForm() {
         <label htmlFor={nameFieldId} className={css.inputLable}>
           Name
         </label>
-        <Field type="text" name="name" className={css.input} />
+        <Field id={nameFieldId} type="text" name="name" className={css.input} />
         <ErrorMessage
           name="name"
           component="div"
@@ -61,8 +59,17 @@ export default function ContactForm() {
         <label htmlFor={numberFieldId} className={css.inputLable}>
           Number
         </label>
-        <Field type="text" name="number" className={css.input} />
-        <ErrorMessage name="number" component="div" className={css.error} />
+        <Field
+          id={numberFieldId}
+          type="text"
+          name="number"
+          className={css.input}
+        />
+        <ErrorMessage
+          name="number"
+          component="div"
+          className={css.messageError}
+        />
 
         <button type="submit" className={css.btn}>
           Add contact
